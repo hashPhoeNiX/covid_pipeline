@@ -58,17 +58,28 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    volumes:
-      - ./pgadmin_data:/var/lib/pgadmin:rw
-    environment:
+    environment: 
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_DEFAULT_PASSWORD=root 
     ports:
-      - "8877:80"
+      - '8090:80'
     networks:
       - pg-db-metabase-network
-    depends_on:
-      - coviddb
+      
+  
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   volumes:
+  #     - ./pgadmin_data:/var/lib/pgadmin
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+  #     - PGADMIN_DEFAULT_PASSWORD=admin
+  #   ports:
+  #     - "8877:80"
+  #   networks:
+  #     - pg-db-metabase-network
+  #   # depends_on:
+  #   #   - coviddb
 
 networks:
   metanet1-secrets:
@@ -85,5 +96,5 @@ secrets:
 volumes:
   pg-data:
   metabase-data:
-  pgadmin_data:
+  # pgadmin_data:
   covid_db_volume:
