@@ -1,7 +1,0 @@
-pandas
-pyarrow
-python-dotenv==0.20.0
-requests
-sqlalchemy 
-psycopg2
-apache-airflow-providers-postgres

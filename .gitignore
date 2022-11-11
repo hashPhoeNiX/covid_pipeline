@@ -1,4 +1,9 @@
 airflow/logs/*
+pgadmin_data/*
+pg-data/*
+matabase_db_volume/*
+metabase-data/*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
