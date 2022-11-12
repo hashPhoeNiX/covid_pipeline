@@ -24,6 +24,9 @@ services:
     secrets:
       - db_password
       - db_user
+
+
+
   postgres-secrets:
     image: postgres:latest
     container_name: postgres-secrets
@@ -36,18 +39,22 @@ services:
       - pg-data:/var/lib/postgresql/data
     networks:
       - metanet1-secrets
-    # ports:
-    #   - 54320:5432
+    ports:
+      - 5433:5432
     secrets:
       - db_password
       - db_user
 
+
+
+
+
   coviddb:
-    image: 'postgres:14.5'
+    image: 'postgres'
     ports:
       - 5434:5432
     volumes:
-      - "./covid_db_volume:/var/lib/postgresql/data:rw"
+      - covid_db_volume:/var/lib/postgresql/data/
     # restart: always
     environment:
       POSTGRES_USER: admin
@@ -56,30 +63,23 @@ services:
     networks:
       - pg-db-metabase-network
 
+
+
+
+
   pgadmin:
     image: dpage/pgadmin4
-    environment: 
+    # volumes:
+    #   - ./pgadmin_data:/var/lib/pgadmin:rw
+    environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=root 
+      - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
-      - '8090:80'
+      - "8090:80"
     networks:
       - pg-db-metabase-network
-      
-  
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   volumes:
-  #     - ./pgadmin_data:/var/lib/pgadmin
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-  #     - PGADMIN_DEFAULT_PASSWORD=admin
-  #   ports:
-  #     - "8877:80"
-  #   networks:
-  #     - pg-db-metabase-network
-  #   # depends_on:
-  #   #   - coviddb
+    # depends_on:
+    #   - coviddb
 
 networks:
   metanet1-secrets:
