@@ -22,6 +22,8 @@ from airflow.providers.postgres.operators.postgres import PostgresOperator
 
 
 
+
+
 dataset_file = "01-01-2021.csv"
 dataset_url= f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{dataset_file}"
 path_to_local_home = os.environ.get("AIRFLOW_HOME", "/opt/airflow")
@@ -30,9 +32,10 @@ data_path = f"{path_to_local_home}/{dataset_file}"
 
 # create function that sends downloaded data to postgresdb
 
+
 def local_to_postgres(src_file):
 
-    engine = create_engine(f'postgresql://root:root@pg-database:5432/covid_db')    
+    engine = create_engine(f'postgresql://admin:admin@coviddb:5432/covid_db')    
 
     df = pd.read_csv(src_file) 
 
@@ -61,7 +64,7 @@ with DAG(
 
     download_data= BashOperator(
         task_id="download_data",
-        bash_command=f"curl -sSL {dataset_url} > {path_to_local_home}/{dataset_file}"
+        bash_command=f'curl -sSL {dataset_url} > {data_path}'
     )
 
     local_to_db = PythonOperator(
@@ -69,14 +72,14 @@ with DAG(
         python_callable = local_to_postgres,
         op_kwargs = {'src_file':data_path}
 
-    )
-    remove_data = BashOperator(
-        task_id="remove_data",
-        bash_command= f"rm {data_path}"
-    )
+   )
+    # remove_data = BashOperator(
+    #     task_id="remove_data",
+    #     bash_command= f"rm {data_path}"
+    # )
 
 
-    download_data >> local_to_db >> remove_data
+    download_data >> local_to_db
 
 
 
