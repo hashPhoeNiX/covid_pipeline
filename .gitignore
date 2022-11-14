@@ -6,6 +6,9 @@
 **/covid_db_volume/*
 
 
+covid_db_volume/
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

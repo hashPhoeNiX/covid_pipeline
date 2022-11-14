@@ -54,7 +54,7 @@ services:
     ports:
       - 5434:5432
     volumes:
-      - covid_db_volume:/var/lib/postgresql/data/:rw
+      - ./covid_db_volume:/var/lib/postgresql/data/:rw
     # restart: always
     environment:
       POSTGRES_USER: admin
