@@ -1,8 +1,10 @@
-airflow/logs/*
-pgadmin_data/*
-pg-data/*
-matabase_db_volume/*
-metabase-data/*
+**/airflow/logs/*
+**/pgadmin_data/*
+**/pg-data/*
+**/matabase_db_volume/*
+**/metabase-data/*
+**/covid_db_volume/*
+
 
 
 # Byte-compiled / optimized / DLL files
