@@ -46,10 +46,12 @@ def local_to_postgres(src_file):
 
     df = pd.read_csv(src_file) 
 
-    df.head(n=0).to_sql(name="covid_data", con=engine, if_exists='replace')
-
-    df.to_sql(name="covid_data", con=engine, if_exists='append')
-
+    try:
+        df.to_sql(name="covid_data", con=engine, if_exists='append', index = False)
+    except Exception as e:
+        df.head(n=0).to_sql(name="covid_data", con=engine, if_exists='replace')
+        df.to_sql(name="covid_data", con=engine, if_exists='append', index = False)
+        print(e)
 
 default_args = {
     'owner': 'airflow',
